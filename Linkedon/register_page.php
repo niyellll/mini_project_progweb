@@ -34,7 +34,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["image"])) {
         } else {
             echo "Error uploading file.";
         }
-        $conn->query("INSERT INTO client VALUES('$email','$password','$namdep','$nambel','$tanggalLahir','$alamat','$target_file,'$tipe_user')");
+        $conn->query("INSERT INTO client VALUES('$email','$password','$namdep','$nambel','$tanggalLahir','$alamat','$target_file','$tipe_user')");
+        
     }
 
     
