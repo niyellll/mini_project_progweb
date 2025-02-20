@@ -6,17 +6,28 @@ $dbname = "linkedon";
 
 $conn = new mysqli($servername,$username,$password,$dbname);
 $conn->query("truncate table current_client");
+$conn->query("truncate table current_company");
+
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
     $email = $_POST["email"];
     $password = $_POST["password"];
     
-    $check = $conn->query("select * from client where _email = '$email' and _password = '$password'");
-    if ($check->num_rows > 0){
+    $checkclient = $conn->query("select * from client where _email = '$email' and _password = '$password'");
+    $checkcompany = $conn->query("select * from company where _email = '$email' and _password = '$password'");
+    if ($checkclient->num_rows > 0){
         $conn->query("insert into current_client values('$email')");
         header("Location: main_page.php");
         exit();
     }
+    else if ($checkcompany->num_rows > 0){
+        $conn->query("insert into current_company values('$email')");
+        header("Location: recruiter_main_page.php");
+        exit();
+    }
+    
 
+
+$conn->close();
 }
 
 

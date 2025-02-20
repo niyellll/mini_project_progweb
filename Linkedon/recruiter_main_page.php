@@ -6,11 +6,11 @@ $dbname = "linkedon";
 
 $conn = new mysqli($servername,$username,$password,$dbname);
 
-$current = $conn->query("select * from current_client");
+$current = $conn->query("select * from current_company");
 $curRow = $current->fetch_assoc();
 $curEmail = $curRow["_email"];
 
-$result = $conn->query("select * from client where _email = '$curEmail'");
+$result = $conn->query("select * from company where _email = '$curEmail'");
 $row = $result->fetch_assoc();
 
 $conn->close();
@@ -25,7 +25,7 @@ $conn->close();
 </head>
 <body>
     <?php
-    echo $row["_namadepan"] . $row["_namabelakang"];
+    echo $row["_namaPerusahaan"];
     ?>
 
 <table>

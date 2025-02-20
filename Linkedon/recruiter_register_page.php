@@ -9,11 +9,10 @@ $conn = new mysqli($servername,$username,$password,$dbname);
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["image"])) {
     $email = $_POST["Email"];
     $password = $_POST["password"];
-    $namdep = $_POST["namaDepan"];
-    $nambel = $_POST["namaBelakang"];
-    $tanggalLahir = $_POST["tanggalLahir"];
+    $namaperusahaan = $_POST["namaperusahaan"];
+    $tanggalberdiri = $_POST["tanggalberdiri"];
     $alamat = $_POST["alamat"];
-    $tipe_user = "Employee";
+    $tipe_user = "Company";
     
     
     $target_dir = "images/";
@@ -23,17 +22,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["image"])) {
     $new_filename = time() . "." . $file_extension;
     $target_file = $target_dir . $new_filename; // pict path
     
-    $check = $conn->query("SELECT * FROM client WHERE _email = '$email'");
+    $check = $conn->query("SELECT * FROM company WHERE _email = '$email'");
     if ($check->num_rows > 0){
         echo "email already registered in database";
     }
     else{
-        if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-            echo "File uploaded successfully";
-        } else {
-            echo "Error uploading file.";
+        $conn->query("INSERT INTO company VALUES('$email','$password','$namaperusahaan','$tanggalberdiri','$alamat','$$target_file','$tipe_user')");
+        $check = $conn->query("SELECT * FROM company WHERE _email = '$email'");
+        if ($check->num_rows > 0){
+            echo "Register Successful!";
         }
-        $conn->query("INSERT INTO client VALUES('$email','$password','$namdep','$nambel','$tanggalLahir','$alamat','$target_file,'$tipe_user')");
     }
 }
 
@@ -56,8 +54,7 @@ $conn->close();
     <table align="center">
         <tr>
             <td>
-                
-                <form action="register_page.php" method="post" enctype="multipart/form-data">
+                <form action="recruiter_register_page.php" method="post" enctype="multipart/form-data">
                     <fieldset>
                         <legend align="center"><b>Register Page</b></legend>
                         <table>
@@ -77,20 +74,15 @@ $conn->close();
 
                             <!-- nama Depan -->
                             <tr>
-                                <td><label for="namaDpn">Nama Depan:</label></td>
-                                <td><input type="text" name="namaDepan" id="namaDpn" maxlength="50" required></td>
+                                <td><label for="namaperusahaan">Nama Perusahaan:</label></td>
+                                <td><input type="text" name="namaperusahaan" id="namaperusahaan" maxlength="50" required></td>
                             </tr>
                             
-                            <!-- nama Belakang -->
-                            <tr>
-                                <td><label for="namaBlkng">Nama Belakang:</label></td>
-                                <td><input type="text" name="namaBelakang" id="namaBlkng" maxlength="50" required></td>
-                            </tr>
                             
-                            <!-- tanggal lahir -->
-                            <tr>
-                            <td><label for="tgllahir">Tanggal Lahir:</label></td>
-                            <td><input type="date" name="tanggalLahir" id="tgllahir" required></td>
+                        <!-- tanggal lahir -->
+                        <tr>
+                            <td><label for="tglberdiri">Tanggal Berdiri:</label></td>
+                            <td><input type="date" name="tanggalberdiri" id="tglberdiri" required></td>
                         </tr>
 
 
@@ -117,7 +109,6 @@ $conn->close();
                             <td>
                                 <button type="reset">Reset</button>
                                 <button type="submit">Submit</button>
-                                
                             </td>
                         </tr>
 
