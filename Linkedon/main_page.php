@@ -1,4 +1,6 @@
 <?php
+include "method.php";
+
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -12,6 +14,19 @@ $curEmail = $curRow["_email"];
 
 $result = $conn->query("select * from client where _email = '$curEmail'");
 $row = $result->fetch_assoc();
+
+if ($_SERVER["REQUEST_METHOD"] == "POST"){
+    if (isset($_POST["form_type"])) {
+        if ($_POST["form_type"] == "deleteAccount"){
+            DeleteAccount($conn,$curEmail);
+            header("location: login_page.php");
+        }
+        if ($_POST["form_type"] == "logout"){
+            truncateCur($conn,"current_company");
+            header("location: login_page.php");
+        }
+    }
+}
 
 $conn->close();
 
@@ -44,6 +59,13 @@ $conn->close();
         </td>
     </tr>
 </table>
-    <p><a href="login_page.php">Logout</a></p>
+<form action="" method="post"> 
+        <input type="hidden" name="form_type" value="deleteAccount">
+        <button type="submit">Delete Account</button>
+    </form>
+    <form action="" method="post"> 
+        <input type="hidden" name="form_type" value="logout">
+        <button type="submit">Logout</button>
+    </form>
 </body>
 </html>

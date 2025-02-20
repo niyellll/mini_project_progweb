@@ -24,6 +24,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         header("Location: recruiter_main_page.php");
         exit();
     }
+    else{
+        echo "Email not found!";
+    }
     
 
 

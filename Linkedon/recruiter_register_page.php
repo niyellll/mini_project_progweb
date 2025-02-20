@@ -27,7 +27,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["image"])) {
         echo "email already registered in database";
     }
     else{
-        $conn->query("INSERT INTO company VALUES('$email','$password','$namaperusahaan','$tanggalberdiri','$alamat','$$target_file','$tipe_user')");
+        if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+            echo "File uploaded successfully";
+        } else {
+            echo "Error uploading file.";
+        }
+        $conn->query("INSERT INTO company VALUES('$email','$password','$namaperusahaan','$tanggalberdiri','$alamat','$target_file','$tipe_user')");
         $check = $conn->query("SELECT * FROM company WHERE _email = '$email'");
         if ($check->num_rows > 0){
             echo "Register Successful!";
@@ -56,7 +61,7 @@ $conn->close();
             <td>
                 <form action="recruiter_register_page.php" method="post" enctype="multipart/form-data">
                     <fieldset>
-                        <legend align="center"><b>Register Page</b></legend>
+                        <legend align="center"><b>Company Register Page</b></legend>
                         <table>
                             <!-- email -->
                              <tr>
@@ -95,7 +100,7 @@ $conn->close();
                         <!-- foto -->
                         <tr>
                             <td>
-                                <label for="foto">Foto diri anda:</label>
+                                <label for="foto">Logo Perusahaan:</label>
                             </td>
                             <td>
                                 <input type="file" name="image" id="foto" required>
@@ -115,7 +120,10 @@ $conn->close();
                         <!-- Login page -->
                         <tr>
                             <td>
-                                <p>Already have an account?<a href="login_page.php"> login here</a></p>
+                                Register as Employee: <a href="register_page.php">Register here</a>
+                                <br><br>
+                                Already have an account?<a href="login_page.php"> login here</a>
+
                             </td>
                         </tr>
                     </table>

@@ -1,3 +1,4 @@
+
 <?php
 $servername = "localhost";
 $username = "root";
@@ -35,6 +36,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["image"])) {
         }
         $conn->query("INSERT INTO client VALUES('$email','$password','$namdep','$nambel','$tanggalLahir','$alamat','$target_file,'$tipe_user')");
     }
+
+    
 }
 
 $conn->close();
@@ -124,7 +127,10 @@ $conn->close();
                         <!-- Login page -->
                         <tr>
                             <td>
-                                <p>Already have an account?<a href="login_page.php"> login here</a></p>
+                                Register as company: <a href="recruiter_register_page.php">Register here</a>
+                                <br><br>
+                                Already have an account?<a href="login_page.php"> login here</a>
+
                             </td>
                         </tr>
                     </table>
